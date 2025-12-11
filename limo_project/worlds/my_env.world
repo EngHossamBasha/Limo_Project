@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="limo_world">
+
+    <!-- ===== Physics ===== -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- ===== Lighting ===== -->
+    <scene>
+      <ambient>0.45 0.45 0.45 1</ambient>
+      <background>0.7 0.7 0.8 1</background>
+    </scene>
+
+    <!-- ===== Ground + Sun ===== -->
+    <include><uri>model://ground_plane</uri></include>
+    <include><uri>model://sun</uri></include>
+
+
+    <!-- ===============================
+         WIDE OPEN BOUNDARIES
+         =============================== -->
+
+    <model name="boundary_back">
+      <pose>0 -12 0 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>30 0.2 1</size></box></geometry></visual>
+        <collision name="collision"><geometry><box><size>30 0.2 1</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <model name="boundary_front">
+      <pose>0 12 0 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>30 0.2 1</size></box></geometry></visual>
+        <collision name="collision"><geometry><box><size>30 0.2 1</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <model name="boundary_left">
+      <pose>-14 0 0 0 0 1.57</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>24 0.2 1</size></box></geometry></visual>
+        <collision name="collision"><geometry><box><size>24 0.2 1</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <model name="boundary_right">
+      <pose>14 0 0 0 0 1.57</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>24 0.2 1</size></box></geometry></visual>
+        <collision name="collision"><geometry><box><size>24 0.2 1</size></box></geometry></collision>
+      </link>
+    </model>
+
+
+    <!-- ==========================
+         CONES
+         ========================== -->
+
+    <model name="cone1">
+      <pose>2 1 0 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry><cylinder><radius>0.15</radius><length>0.4</length></cylinder></geometry>
+          <material><ambient>1 0.4 0 1</ambient></material>
+        </visual>
+        <collision name="collision">
+          <geometry><cylinder><radius>0.15</radius><length>0.4</length></cylinder></geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="cone2">
+      <pose>-1.5 2 0 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry><cylinder><radius>0.15</radius><length>0.4</length></cylinder></geometry>
+          <material><ambient>1 0.4 0 1</ambient></material>
+        </visual>
+        <collision name="collision">
+          <geometry><cylinder><radius>0.15</radius><length>0.4</length></cylinder></geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="cone3">
+      <pose>0 -2 0 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry><cylinder><radius>0.15</radius><length>0.4</length></cylinder></geometry>
+          <material><ambient>1 0.4 0 1</ambient></material>
+        </visual>
+        <collision name="collision">
+          <geometry><cylinder><radius>0.15</radius><length>0.4</length></cylinder></geometry>
+        </collision>
+      </link>
+    </model>
+
+
+    <!-- ==================
+         RAMP
+         ================== -->
+    <model name="ramp1">
+      <pose>-3 -3 0 0 0 0</pose>
+      <static>true</static>
+      <link name="ramp_link">
+        <visual name="visual">
+          <geometry><box><size>2 1 0.1</size></box></geometry>
+          <material><ambient>0.4 0.4 0.4 1</ambient></material>
+        </visual>
+        <collision name="collision">
+          <geometry><box><size>2 1 0.1</size></box></geometry>
+        </collision>
+        <pose>0 0 0.05 0.3 0 0</pose> <!-- tilted box -->
+      </link>
+    </model>
+
+
+    <!-- ==========================
+         TABLES AS SIDE OBSTACLES
+         ========================== -->
+
+    <!-- Left table -->
+    <model name="left_table">
+      <pose>-8 -4 0 0 0 0</pose>
+      <static>true</static>
+      <link name="table_top">
+        <visual name="visual">
+          <geometry><box><size>1.2 0.7 0.8</size></box></geometry>
+          <material><ambient>0.6 0.4 0.2 1</ambient></material>
+        </visual>
+        <collision name="collision"><geometry><box><size>1.2 0.7 0.8</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- Right table -->
+    <model name="right_table">
+      <pose>8 4 0 0 0 0</pose>
+      <static>true</static>
+      <link name="table_top">
+        <visual name="visual">
+          <geometry><box><size>1.2 0.7 0.8</size></box></geometry>
+          <material><ambient>0.6 0.4 0.2 1</ambient></material>
+        </visual>
+        <collision name="collision"><geometry><box><size>1.2 0.7 0.8</size></box></geometry></collision>
+      </link>
+    </model>
+
+
+    <!-- ==========================
+         PICKABLE BOX ON GROUND
+         ========================== -->
+    <model name="pickup_box">
+      <pose>1.2 0.5 0.05 0 0 0</pose>
+      <static>false</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.1 0.1 0.1</size></box></geometry>
+          <material><ambient>0 0 1 1</ambient></material> <!-- Blue -->
+        </visual>
+        <collision name="collision">
+          <geometry><box><size>0.1 0.1 0.1</size></box></geometry>
+        </collision>
+        <inertial>
+          <mass>0.1</mass>
+        </inertial>
+      </link>
+    </model>
+
+  </world>
+</sdf>
+
