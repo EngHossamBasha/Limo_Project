@@ -221,7 +221,7 @@ roslaunch limo_project demo_gazebo.launch
 
 **3. Robot doesn't move with teleop**
 - Make sure to click on the teleop terminal to focus it
-- Check if `/cmd_vel` topic is being published:
+- Check if `/cmd_vel` topic is being published by opening another terminal and type:
   ```bash
   rostopic echo /cmd_vel
   ```
@@ -257,8 +257,9 @@ rostopic hz /cmd_vel
 ## 👥 Team
 
 - **Hossam Basha** - [GitHub](https://github.com/EngHossamBasha)
-- **Karim** - Project Developer
-- Team Members
+- **Karim Mohamed** - [GitHub](https://github.com/Karim-yousef)
+- **Mohamed Salman** - [GitHub](https://github.com/mohamed320neo)
+- **Hassan Mohamed** 
 
 ## 📄 License
 
