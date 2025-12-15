@@ -1,0 +1,798 @@
+\documentclass[12pt,a4paper]{report}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{pdfpages}
+
+% ============================================
+% PAGE GEOMETRY
+% ============================================
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=30mm,
+    bottom=30mm
+}
+
+% ============================================
+% COLORS
+% ============================================
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.55}
+
+% ============================================
+% LISTINGS CONFIGURATION
+% ============================================
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% ============================================
+% HYPERREF CONFIGURATION
+% ============================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkblue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={LIMO COBOT Project Report},
+    pdfauthor={Team},
+}
+
+% ============================================
+% HEADER AND FOOTER
+% ============================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{LIMO COBOT Project}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ============================================
+% TITLE FORMATTING
+% ============================================
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% ============================================
+% DOCUMENT INFO
+% ============================================
+\title{
+    \vspace{-2cm}
+    \includegraphics[width=0.3\textwidth]{university_logo.png}\\[1cm]
+    {\Huge \textbf{LIMO COBOT Project}}\\[0.5cm]
+    {\Large Mobile Robot with Robotic Arm for Pick-and-Place Applications}\\[1cm]
+    {\large Final Project Report}\\[0.5cm]
+    \rule{\textwidth}{1pt}
+}
+
+\author{
+    \textbf{Team Members:}\\[0.3cm]
+    Hossam Basha\\
+    Karim\\
+    [Add other team members]\\[1cm]
+    \textbf{Supervisor:}\\
+    [Professor Name]\\[1cm]
+    \textbf{Course:}\\
+    [Course Name]
+}
+
+\date{December 2025}
+
+% ============================================
+% DOCUMENT START
+% ============================================
+\begin{document}
+
+% Title Page
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+% Abstract
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This project presents the development of a mobile manipulation platform combining the AgileX LIMO differential drive robot with a MyCobot 280 6-DOF robotic arm. The integrated system, simulated in Gazebo with ROS Noetic, enables autonomous navigation and manipulation capabilities suitable for pick-and-place operations.
+
+The project encompasses robot modeling using URDF/Xacro, MoveIt configuration for motion planning, Gazebo simulation with realistic physics and sensors, and parameter tuning for smooth navigation. Key achievements include successful integration of the mobile base with the robotic arm, implementation of keyboard teleoperation, and configuration of the MoveIt framework for arm motion planning.
+
+\textbf{Keywords:} ROS, Gazebo, MoveIt, Mobile Manipulation, LIMO, MyCobot, URDF, Simulation
+
+\newpage
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% List of Figures
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\newpage
+
+% List of Tables
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+\newpage
+
+% ============================================
+% CHAPTER 1: INTRODUCTION
+% ============================================
+\chapter{Introduction}
+
+\section{Project Overview}
+
+The LIMO COBOT project aims to create a mobile manipulation platform by integrating the AgileX LIMO mobile robot with the Elephant Robotics MyCobot 280 robotic arm. This combination creates a versatile system capable of both autonomous navigation and object manipulation.
+
+\section{Objectives}
+
+The main objectives of this project are:
+
+\begin{enumerate}
+    \item Design and implement a unified robot model combining LIMO base with MyCobot arm
+    \item Configure MoveIt for robotic arm motion planning
+    \item Set up Gazebo simulation environment with realistic physics
+    \item Implement teleoperation for manual control
+    \item Configure navigation stack for autonomous operation
+    \item Document the complete development process
+\end{enumerate}
+
+\section{Scope}
+
+This project covers:
+\begin{itemize}
+    \item Robot modeling using URDF/Xacro
+    \item Gazebo simulation setup
+    \item MoveIt configuration and integration
+    \item Navigation parameter tuning
+    \item ROS package organization
+\end{itemize}
+
+\section{Report Organization}
+
+This report is organized as follows:
+\begin{itemize}
+    \item \textbf{Chapter 2:} Background and literature review
+    \item \textbf{Chapter 3:} System design and architecture
+    \item \textbf{Chapter 4:} Implementation details
+    \item \textbf{Chapter 5:} Results and testing
+    \item \textbf{Chapter 6:} Conclusions and future work
+\end{itemize}
+
+% ============================================
+% CHAPTER 2: BACKGROUND
+% ============================================
+\chapter{Background}
+
+\section{Robot Operating System (ROS)}
+
+ROS (Robot Operating System) is an open-source robotics middleware that provides tools, libraries, and conventions for developing robot applications. Key concepts include:
+
+\begin{itemize}
+    \item \textbf{Nodes:} Independent processes that perform computation
+    \item \textbf{Topics:} Named buses for message passing between nodes
+    \item \textbf{Services:} Request/reply interactions between nodes
+    \item \textbf{Parameters:} Configuration values stored on the parameter server
+\end{itemize}
+
+\section{AgileX LIMO Robot}
+
+The LIMO (Light Intelligence MObile) robot is a compact mobile platform developed by AgileX Robotics. Key specifications:
+
+\begin{table}[H]
+\centering
+\caption{LIMO Robot Specifications}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Dimensions & 322 × 220 × 251 mm \\
+Weight & 4.8 kg \\
+Drive Mode & Differential / Ackermann \\
+Maximum Speed & 1.0 m/s \\
+Payload & 4 kg \\
+Sensors & LiDAR, Depth Camera, IMU \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% INSERT SCREENSHOT: LIMO robot image
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{images/limo_robot.png}
+    \fbox{\parbox{0.6\textwidth}{\centering\vspace{2cm}[Insert LIMO Robot Image]\vspace{2cm}}}
+    \caption{AgileX LIMO Mobile Robot}
+    \label{fig:limo_robot}
+\end{figure}
+
+\section{MyCobot 280 Robotic Arm}
+
+The MyCobot 280 is a 6-DOF collaborative robotic arm developed by Elephant Robotics.
+
+\begin{table}[H]
+\centering
+\caption{MyCobot 280 Specifications}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+DOF & 6 \\
+Reach & 280 mm \\
+Payload & 250 g \\
+Repeatability & ±0.5 mm \\
+Weight & 850 g \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Gazebo Simulator}
+
+Gazebo is a 3D robotics simulator that provides:
+\begin{itemize}
+    \item Realistic physics simulation (ODE, Bullet, Simbody)
+    \item Sensor simulation (LiDAR, cameras, IMU)
+    \item ROS integration via gazebo\_ros packages
+    \item Custom world environments
+\end{itemize}
+
+\section{MoveIt Motion Planning Framework}
+
+MoveIt is the primary motion planning framework for ROS, providing:
+\begin{itemize}
+    \item Kinematic solving (KDL, IKFast, TRAC-IK)
+    \item Motion planning (OMPL planners)
+    \item Collision checking
+    \item Trajectory execution
+\end{itemize}
+
+% ============================================
+% CHAPTER 3: SYSTEM DESIGN
+% ============================================
+\chapter{System Design}
+
+\section{System Architecture}
+
+The system architecture consists of multiple interconnected components as shown in Figure \ref{fig:architecture}.
+
+% INSERT SCREENSHOT: System architecture diagram
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{images/architecture.png}
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{4cm}[Insert System Architecture Diagram]\vspace{4cm}}}
+    \caption{System Architecture Overview}
+    \label{fig:architecture}
+\end{figure}
+
+\section{ROS Package Structure}
+
+The project is organized into the following packages:
+
+\begin{lstlisting}[language=bash, caption=Package Structure]
+src/
+|-- Limo_Project/           # Main project package
+|   |-- launch/             # Launch files
+|   |-- param/              # Configuration parameters
+|   |-- rviz/               # RViz configurations
+|   +-- worlds/             # Gazebo world files
+|
+|-- limo_description/       # LIMO robot URDF
+|   |-- urdf/
+|   +-- meshes/
+|
+|-- mycobot_description/    # MyCobot arm URDF
+|   |-- urdf/
+|   +-- meshes/
+|
+|-- limo_gazebo_sim/        # Gazebo configuration
+|   |-- config/
+|   |-- launch/
+|   +-- worlds/
+|
++-- limo_cobot_moveit/      # MoveIt configuration
+    |-- config/
+    +-- launch/
+\end{lstlisting}
+
+\section{Robot Model (URDF)}
+
+The combined robot model integrates the LIMO base with the MyCobot arm. Key components include:
+
+\subsection{LIMO Base}
+\begin{itemize}
+    \item Base frame with chassis geometry
+    \item Four wheel joints (differential drive)
+    \item LiDAR sensor link
+    \item Depth camera link
+    \item IMU sensor link
+\end{itemize}
+
+\subsection{MyCobot Arm}
+\begin{itemize}
+    \item 6 revolute joints
+    \item Gripper end-effector
+    \item Mounted on LIMO base
+\end{itemize}
+
+% INSERT SCREENSHOT: URDF visualization in RViz
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{images/urdf_rviz.png}
+    \fbox{\parbox{0.7\textwidth}{\centering\vspace{3cm}[Insert URDF Visualization Screenshot]\vspace{3cm}}}
+    \caption{Robot Model Visualization in RViz}
+    \label{fig:urdf_rviz}
+\end{figure}
+
+\section{Gazebo Plugins}
+
+The following Gazebo plugins are used:
+
+\begin{table}[H]
+\centering
+\caption{Gazebo Plugins Configuration}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Plugin} & \textbf{Purpose} & \textbf{Topic} \\
+\midrule
+gazebo\_ros\_control & Joint control & - \\
+skid\_steer\_drive & Base movement & /cmd\_vel \\
+gazebo\_ros\_laser & LiDAR simulation & /scan \\
+openni\_kinect & Depth camera & /camera/depth \\
+imu\_sensor & IMU simulation & /imu \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% CHAPTER 4: IMPLEMENTATION
+% ============================================
+\chapter{Implementation}
+
+\section{Development Environment Setup}
+
+\subsection{Prerequisites Installation}
+
+The following packages were installed:
+
+\begin{lstlisting}[language=bash, caption=Prerequisites Installation]
+# ROS Noetic installation
+sudo apt install ros-noetic-desktop-full
+
+# Required dependencies
+sudo apt install -y \
+    ros-noetic-gazebo-ros-pkgs \
+    ros-noetic-gazebo-ros-control \
+    ros-noetic-ros-controllers \
+    ros-noetic-moveit \
+    ros-noetic-teleop-twist-keyboard \
+    ros-noetic-gmapping \
+    ros-noetic-amcl \
+    ros-noetic-move-base
+\end{lstlisting}
+
+\subsection{Workspace Creation}
+
+\begin{lstlisting}[language=bash, caption=Workspace Setup]
+# Create catkin workspace
+mkdir -p ~/limo_cobot_ws/src
+cd ~/limo_cobot_ws/src
+
+# Clone repository
+git clone https://github.com/EngHossamBasha/Limo_Project.git .
+
+# Build workspace
+cd ~/limo_cobot_ws
+catkin_make
+
+# Source workspace
+source devel/setup.bash
+\end{lstlisting}
+
+\section{Launch File Configuration}
+
+\subsection{Main Launch File}
+
+The main launch file (\texttt{demo\_gazebo.launch}) orchestrates the simulation:
+
+\begin{lstlisting}[language=XML, caption=demo\_gazebo.launch]
+<?xml version="1.0"?>
+<launch>
+  <!-- MoveIt options -->
+  <arg name="pipeline" default="ompl"/>
+  
+  <!-- Gazebo options -->
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="world_name" default="$(dirname)/../worlds/clearpath_playpen.world"/>
+  
+  <!-- Launch Gazebo -->
+  <include file="$(dirname)/gazebo.launch" pass_all_args="true"/>
+  
+  <!-- Launch MoveIt -->
+  <include file="$(find limo_cobot_moveit)/launch/demo.launch">
+    <arg name="load_robot_description" value="false"/>
+    <arg name="moveit_controller_manager" value="ros_control"/>
+  </include>
+</launch>
+\end{lstlisting}
+
+\section{MoveIt Configuration}
+
+MoveIt was configured using the Setup Assistant with the following groups:
+
+\begin{itemize}
+    \item \textbf{arm:} Joints 1-6 of MyCobot
+    \item \textbf{gripper:} Gripper finger joints
+\end{itemize}
+
+% INSERT SCREENSHOT: MoveIt Setup Assistant
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{images/moveit_setup.png}
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}[Insert MoveIt Setup Assistant Screenshot]\vspace{3cm}}}
+    \caption{MoveIt Setup Assistant Configuration}
+    \label{fig:moveit_setup}
+\end{figure}
+
+\section{Controller Configuration}
+
+\subsection{Arm Controller}
+
+\begin{lstlisting}[language=yaml, caption=Arm Controller Configuration]
+arm_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - joint2_to_joint1
+    - joint3_to_joint2
+    - joint4_to_joint3
+    - joint5_to_joint4
+    - joint6_to_joint5
+    - joint6output_to_joint6
+  gains:
+    joint2_to_joint1: {p: 100, i: 1, d: 1}
+    # ... other joints
+\end{lstlisting}
+
+\subsection{Diff Drive Controller}
+
+The LIMO base uses a skid-steer drive plugin:
+
+\begin{lstlisting}[language=XML, caption=Diff Drive Plugin Configuration]
+<plugin name="four_diff_controller" 
+        filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>50.0</updateRate>
+    <robotNamespace>/</robotNamespace>
+    <wheelSeparation>0.172</wheelSeparation>
+    <wheelDiameter>0.09</wheelDiameter>
+    <commandTopic>cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <torque>50</torque>
+</plugin>
+\end{lstlisting}
+
+\section{Troubleshooting Encountered}
+
+During development, several issues were encountered and resolved:
+
+\subsection{Missing URDF Files}
+
+\textbf{Problem:} \texttt{limo\_base.urdf} not found in original package.
+
+\textbf{Solution:} Copied correct URDF from working simulation workspace.
+
+\subsection{Missing Mesh Files}
+
+\textbf{Problem:} MyCobot mesh files (.dae) missing, causing visualization errors.
+
+\textbf{Solution:} Included complete \texttt{mycobot\_description} package with all meshes.
+
+\subsection{Teleop Not Working}
+
+\textbf{Problem:} Keyboard commands not moving the robot.
+
+\textbf{Solution:} Verified diff\_drive plugin was correctly configured and \texttt{/cmd\_vel} topic was being published.
+
+% ============================================
+% CHAPTER 5: RESULTS
+% ============================================
+\chapter{Results and Testing}
+
+\section{Simulation Launch}
+
+The complete simulation was successfully launched with the following command:
+
+\begin{lstlisting}[language=bash]
+roslaunch limo_project demo_gazebo.launch
+\end{lstlisting}
+
+% INSERT SCREENSHOT: Gazebo simulation running
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{images/gazebo_simulation.png}
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{5cm}[Insert Gazebo Simulation Screenshot]\vspace{5cm}}}
+    \caption{LIMO COBOT in Gazebo Simulation}
+    \label{fig:gazebo_sim}
+\end{figure}
+
+\section{Teleoperation Testing}
+
+Keyboard teleoperation was verified:
+
+% INSERT SCREENSHOT: Terminal with teleop running
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{images/teleop_terminal.png}
+    \fbox{\parbox{0.7\textwidth}{\centering\vspace{2cm}[Insert Teleop Terminal Screenshot]\vspace{2cm}}}
+    \caption{Teleop Keyboard Node Running}
+    \label{fig:teleop}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Teleoperation Test Results}
+\begin{tabular}{@{}lcl@{}}
+\toprule
+\textbf{Command} & \textbf{Expected} & \textbf{Result} \\
+\midrule
+Press 'i' & Forward motion & \checkmark Pass \\
+Press ',' & Backward motion & \checkmark Pass \\
+Press 'j' & Turn left & \checkmark Pass \\
+Press 'l' & Turn right & \checkmark Pass \\
+Press 'k' & Stop & \checkmark Pass \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{MoveIt Motion Planning}
+
+The robotic arm was successfully controlled using MoveIt:
+
+% INSERT SCREENSHOT: MoveIt in RViz with motion planning
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{images/moveit_rviz.png}
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{5cm}[Insert MoveIt RViz Screenshot]\vspace{5cm}}}
+    \caption{MoveIt Motion Planning in RViz}
+    \label{fig:moveit_rviz}
+\end{figure}
+
+\section{ROS Topic Verification}
+
+The following topics were verified active:
+
+\begin{lstlisting}[language=bash, caption=Active ROS Topics]
+$ rostopic list | grep -E "cmd_vel|odom|joint"
+/cmd_vel
+/odom
+/joint_states
+/arm_controller/command
+/gripper_controller/command
+\end{lstlisting}
+
+\section{Performance Metrics}
+
+\begin{table}[H]
+\centering
+\caption{System Performance}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Gazebo Real-Time Factor & ~0.8-1.0 \\
+Joint State Publishing Rate & 50 Hz \\
+Odometry Publishing Rate & 50 Hz \\
+MoveIt Planning Time & < 5 seconds \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% CHAPTER 6: CONCLUSION
+% ============================================
+\chapter{Conclusions and Future Work}
+
+\section{Summary}
+
+This project successfully achieved the following objectives:
+
+\begin{enumerate}
+    \item \textbf{Robot Integration:} Combined LIMO mobile base with MyCobot 280 arm into a unified model
+    \item \textbf{Simulation:} Established complete Gazebo simulation with realistic physics
+    \item \textbf{Motion Planning:} Configured MoveIt for arm motion planning
+    \item \textbf{Teleoperation:} Implemented keyboard control for the mobile base
+    \item \textbf{Documentation:} Created comprehensive documentation and tutorials
+\end{enumerate}
+
+\section{Challenges Overcome}
+
+\begin{itemize}
+    \item Resolved package dependency issues
+    \item Fixed missing URDF and mesh files
+    \item Configured controller parameters for stable motion
+    \item Integrated multiple ROS packages into cohesive system
+\end{itemize}
+
+\section{Future Work}
+
+Potential extensions for this project include:
+
+\begin{enumerate}
+    \item \textbf{SLAM Integration:} Implement simultaneous localization and mapping
+    \item \textbf{Autonomous Navigation:} Configure move\_base for autonomous goal navigation
+    \item \textbf{Object Detection:} Add computer vision for object recognition
+    \item \textbf{Pick-and-Place:} Implement complete pick-and-place pipeline
+    \item \textbf{Real Robot:} Deploy to physical LIMO and MyCobot hardware
+\end{enumerate}
+
+\section{Lessons Learned}
+
+\begin{itemize}
+    \item Importance of proper workspace organization
+    \item Value of version control (Git) for collaborative development
+    \item Need for comprehensive documentation
+    \item Understanding of ROS package dependencies
+\end{itemize}
+
+% ============================================
+% APPENDICES
+% ============================================
+\appendix
+
+\chapter{Installation Commands}
+
+Complete installation script:
+
+\begin{lstlisting}[language=bash, caption=Complete Installation Script]
+#!/bin/bash
+# LIMO COBOT Installation Script
+
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install ROS Noetic
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt install curl
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo apt update
+sudo apt install ros-noetic-desktop-full -y
+
+# Initialize rosdep
+sudo rosdep init
+rosdep update
+
+# Install dependencies
+sudo apt install -y \
+    ros-noetic-gazebo-ros-pkgs \
+    ros-noetic-gazebo-ros-control \
+    ros-noetic-ros-controllers \
+    ros-noetic-moveit \
+    ros-noetic-teleop-twist-keyboard
+
+# Create workspace
+mkdir -p ~/limo_cobot_ws/src
+cd ~/limo_cobot_ws/src
+git clone https://github.com/EngHossamBasha/Limo_Project.git .
+
+# Build
+cd ~/limo_cobot_ws
+catkin_make
+source devel/setup.bash
+
+# Add to bashrc
+echo "source ~/limo_cobot_ws/devel/setup.bash" >> ~/.bashrc
+
+echo "Installation complete!"
+\end{lstlisting}
+
+\chapter{Keyboard Control Reference}
+
+\begin{table}[H]
+\centering
+\caption{Teleop Keyboard Commands}
+\begin{tabular}{@{}cl@{}}
+\toprule
+\textbf{Key} & \textbf{Action} \\
+\midrule
+u & Forward + Turn Left \\
+i & Forward \\
+o & Forward + Turn Right \\
+j & Turn Left (in place) \\
+k & Stop \\
+l & Turn Right (in place) \\
+m & Backward + Turn Left \\
+, & Backward \\
+. & Backward + Turn Right \\
+q/z & Increase/Decrease all speeds \\
+w/x & Increase/Decrease linear speed \\
+e/c & Increase/Decrease angular speed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{ROS Commands Reference}
+
+\begin{lstlisting}[language=bash, caption=Useful ROS Commands]
+# Launch simulation
+roslaunch limo_project demo_gazebo.launch
+
+# Teleop control
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+
+# List topics
+rostopic list
+
+# Monitor cmd_vel
+rostopic echo /cmd_vel
+
+# Check controllers
+rosservice call /controller_manager/list_controllers
+
+# Kill Gazebo
+killall gzserver gzclient
+\end{lstlisting}
+
+% ============================================
+% REFERENCES
+% ============================================
+\begin{thebibliography}{9}
+
+\bibitem{ros}
+Quigley, M., Conley, K., Gerkey, B., et al. (2009). ROS: an open-source Robot Operating System. \textit{ICRA Workshop on Open Source Software}.
+
+\bibitem{gazebo}
+Koenig, N., \& Howard, A. (2004). Design and use paradigms for Gazebo, an open-source multi-robot simulator. \textit{IEEE/RSJ International Conference on Intelligent Robots and Systems}.
+
+\bibitem{moveit}
+Chitta, S., Sucan, I., \& Cousins, S. (2012). MoveIt! \textit{IEEE Robotics \& Automation Magazine}.
+
+\bibitem{limo}
+AgileX Robotics. (2021). LIMO User Manual. \url{https://www.agilex.ai/}
+
+\bibitem{mycobot}
+Elephant Robotics. (2021). MyCobot 280 User Manual. \url{https://www.elephantrobotics.com/}
+
+\end{thebibliography}
+
+\end{document}

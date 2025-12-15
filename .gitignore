@@ -1,0 +1,38 @@
+# Build directories
+build/
+devel/
+install/
+logs/
+log/
+
+# Catkin generated files
+.catkin_workspace
+CMakeLists.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ROS bags (can be large)
+*.bag
+
+# Temporary files
+*.tmp
+*.temp
+*.log
