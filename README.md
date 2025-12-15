@@ -265,13 +265,3 @@ rostopic hz /cmd_vel
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
-
-- AgileX Robotics for the LIMO platform
-- Elephant Robotics for MyCobot
-- ROS and MoveIt community
-- Our project supervisor
-
----
-
-**Note:** This project was developed as part of our robotics course. For questions or issues, please open a GitHub issue.
